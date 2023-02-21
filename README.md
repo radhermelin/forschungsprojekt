@@ -1,6 +1,6 @@
 # Forschungsprojekt
 
-(Ein?) Forschungsprojekt vom ART Lehrstuhl an der RWTH Aachen.
+Ein Forschungsprojekt vom ART Lehrstuhl an der RWTH Aachen.
 
 ## Dependencies
 
