@@ -13,11 +13,10 @@ pub fn calculate_p_lambda(
     free: &[Vec<usize>],
     occ: &mut [Vec<usize>],
 ) {
-    if q.is_empty() {
+    let Some(&Point { x: a, y: b }) = q.last() else {
         p_lambda.push(p.clone());
         return;
-    }
-    let Point { x: a, y: b } = q[q.len() - 1];
+    };
 
     let preocc = set_preocc(a, b, occ);
 
@@ -93,6 +92,7 @@ fn calc(p: &[bool], i: usize, n: usize, N: usize) -> Vec<bool> {
     v
 }
 
-fn update(_q: &mut [Vec<Vec<usize>>], _p: &[bool], _i: usize, _n: usize, _N: usize) {
+#[allow(unused_variables)]
+fn update(q: &mut [Vec<Vec<usize>>], p: &[bool], i: usize, n: usize, N: usize) {
     todo!();
 }
