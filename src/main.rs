@@ -2,7 +2,7 @@
 
 use forschungsprojekt::calculate_p_lambda;
 use forschungsprojekt::formatting::format_p_lambda;
-use forschungsprojekt::initializers::{init_free, init_lambda, init_occ, init_p, init_q};
+use forschungsprojekt::initializers::{init_free, init_lambda, init_q, init_zero_vec};
 use std::env;
 
 fn main() {
@@ -14,9 +14,9 @@ fn main() {
 
     let mut p_lambda = Vec::new();
     let q = init_q(n);
-    let mut p = init_p(N);
+    let mut p = init_zero_vec(N);
     let free = init_free(&lambda);
-    let mut occ = init_occ(n);
+    let mut occ = init_zero_vec(n);
 
     calculate_p_lambda(&q, &mut p, &mut p_lambda, &free, &mut occ);
 

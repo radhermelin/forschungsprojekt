@@ -1,6 +1,6 @@
 use crate::Point;
 
-pub fn init_p(n: usize) -> Vec<Vec<usize>> {
+pub fn init_zero_vec(n: usize) -> Vec<Vec<usize>> {
     let mut res = Vec::new();
     for i in 0..n {
         res.push(vec![0; i + 1]);
@@ -19,21 +19,13 @@ pub fn init_q(n: usize) -> Vec<Point> {
 }
 
 pub fn init_free(lambda: &[usize]) -> Vec<Vec<usize>> {
-    let mut res = Vec::new();
+    let mut res = init_zero_vec(lambda.len());
     for i in 0..lambda.len() {
-        res.push(vec![0; i + 1]);
         for j in 0..res[i].len() {
-            res[i][j] = lambda[j..=i].to_vec().iter().sum();
+            res[i][j] = lambda[j..=i].iter().sum();
         }
     }
-    res
-}
 
-pub fn init_occ(n: usize) -> Vec<Vec<usize>> {
-    let mut res = Vec::new();
-    for i in 0..n {
-        res.push(vec![0; i + 1]);
-    }
     res
 }
 
