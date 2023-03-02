@@ -7,35 +7,43 @@ pub mod point;
 use point::Point;
 
 pub fn calculate_p_lambda(
-    mut q: Vec<Point>,
-    mut p: Vec<Vec<usize>>,
+    q: &[Point],
+    p: &mut Vec<Vec<usize>>,
     p_lambda: &mut Vec<Vec<Vec<usize>>>,
     free: &[Vec<usize>],
-    mut occ: Vec<Vec<usize>>,
+    occ: &mut [Vec<usize>],
 ) {
     if q.is_empty() {
-        p_lambda.push(p);
+        p_lambda.push(p.clone());
         return;
     }
-    let Point { x: a, y: b } = q.pop().unwrap();
-    let preocc = if a == b {
-        0
-    } else if b - a == 1 {
-        occ[b][a + 1] + occ[b - 1][a]
-    } else {
-        occ[b][a + 1] + occ[b - 1][a] - 2 * occ[b - 1][a + 1]
-    };
+    let Point { x: a, y: b } = q[q.len() - 1];
+
+    let preocc = set_preocc(a, b, occ);
+
     if free[b][a] < preocc {
         return;
     }
+
     let avail = free[b][a] - preocc;
+
     for i in 0..=avail {
         occ[b][a] = preocc + i;
         if b - a > 1 {
             occ[b][a] += occ[b - 1][a + 1];
         }
         p[b][a] = i;
-        calculate_p_lambda(q.clone(), p.clone(), p_lambda, free, occ.clone());
+        calculate_p_lambda(&q[..(q.len() - 1)], p, p_lambda, free, occ);
+    }
+}
+
+fn set_preocc(a: usize, b: usize, occ: &[Vec<usize>]) -> usize {
+    if a == b {
+        0
+    } else if b - a == 1 {
+        occ[b][a + 1] + occ[b - 1][a]
+    } else {
+        occ[b][a + 1] + occ[b - 1][a] - 2 * occ[b - 1][a + 1]
     }
 }
 

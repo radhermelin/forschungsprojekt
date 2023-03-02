@@ -14,11 +14,11 @@ fn main() {
 
     let mut p_lambda = Vec::new();
     let q = init_q(n);
-    let p = init_p(N);
+    let mut p = init_p(N);
     let free = init_free(&lambda);
-    let occ = init_occ(n);
+    let mut occ = init_occ(n);
 
-    calculate_p_lambda(q, p, &mut p_lambda, &free, occ);
+    calculate_p_lambda(&q, &mut p, &mut p_lambda, &free, &mut occ);
 
     let p_res = format_p_lambda(&p_lambda);
 
