@@ -5,6 +5,8 @@ pub mod initializers;
 pub mod point;
 
 use point::Point;
+use std::collections::HashMap;
+use std::iter::zip;
 
 pub fn calculate_p_lambda(
     q: &[Point],
@@ -47,17 +49,24 @@ fn set_preocc(a: usize, b: usize, occ: &[Vec<usize>]) -> usize {
 }
 
 pub fn calculate_q_omega_i(n: usize, i: usize) -> Vec<Vec<Vec<usize>>> {
-    let mut q: Vec<Vec<Vec<usize>>> = Vec::new();
+    let mut q: HashMap<Vec<bool>, Vec<bool>> = HashMap::new();
     #[allow(non_snake_case)]
     let N: usize = n * (n + 1) / 2;
     let mut p = vec![false; N];
     if i <= n {
         evil_q(1, &mut p, n, N, &mut q, i);
     }
-    q
+    todo!() // conversion hashmap to vector
 }
 
-fn evil_q(j: usize, p: &mut [bool], n: usize, N: usize, q: &mut [Vec<Vec<usize>>], i: usize) {
+fn evil_q(
+    j: usize,
+    p: &mut [bool],
+    n: usize,
+    N: usize,
+    q: &mut HashMap<Vec<bool>, Vec<bool>>,
+    i: usize,
+) {
     if j > n {
         update(q, p, i, n, N);
         return;
@@ -72,7 +81,7 @@ fn evil_q(j: usize, p: &mut [bool], n: usize, N: usize, q: &mut [Vec<Vec<usize>>
 
 fn calc(p: &[bool], i: usize, n: usize, N: usize) -> Vec<bool> {
     let mut v = vec![true; 2 * i - 1];
-    v.append(&mut vec![false; 2 * (n - i) + 1]);
+    v.extend(vec![false; 2 * (n - i) + 1]);
     let mut e = 1;
     let mut s = 1;
     for _ in 1..N {
@@ -92,7 +101,20 @@ fn calc(p: &[bool], i: usize, n: usize, N: usize) -> Vec<bool> {
     v
 }
 
-#[allow(unused_variables)]
-fn update(q: &mut [Vec<Vec<usize>>], p: &[bool], i: usize, n: usize, N: usize) {
-    todo!();
+fn update(q: &mut HashMap<Vec<bool>, Vec<bool>>, p: &[bool], i: usize, n: usize, N: usize) {
+    let r = calc(p, i, n, N);
+    if let Some(value) = q.get(&r) {
+        if smaller_bit_vec(p, value) {
+            q.insert(r, p.to_vec());
+        }
+    }
+}
+
+fn smaller_bit_vec(left: &[bool], right: &[bool]) -> bool {
+    for (&l, r) in zip(left, right) {
+        if l ^ r {
+            return l;
+        }
+    }
+    return false;
 }
