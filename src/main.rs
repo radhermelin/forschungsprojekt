@@ -1,7 +1,7 @@
 #![warn(clippy::all, clippy::pedantic)]
 
 use forschungsprojekt::calculate_p_lambda;
-use forschungsprojekt::formatting::format_p_lambda;
+use forschungsprojekt::formatting::format_lambda;
 use forschungsprojekt::initializers::{init_free, init_lambda, init_q, init_zero_vec};
 use std::env;
 
@@ -20,7 +20,7 @@ fn main() {
 
     calculate_p_lambda(&q, &mut p, &mut p_lambda, &free, &mut occ);
 
-    let p_res = format_p_lambda(&p_lambda);
+    let p_res = format_lambda(&p_lambda);
 
     println!("p_lambda: {p_res:?}");
     println!("{}", p_lambda.len());

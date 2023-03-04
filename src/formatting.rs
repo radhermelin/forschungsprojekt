@@ -17,6 +17,6 @@ fn format_p(p: &[Vec<usize>]) -> String {
     res
 }
 
-pub fn format_p_lambda(p_lambda: &[Vec<Vec<usize>>]) -> Vec<String> {
+pub fn format_lambda(p_lambda: &[Vec<Vec<usize>>]) -> Vec<String> {
     p_lambda.iter().map(|x| format_p(x)).collect()
 }
